@@ -1,6 +1,8 @@
 package ru.surantaev.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,11 +28,13 @@ public class Course {
 
     //Связь с таблицой Company
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinColumn(name = "company_id")
     private Company company;
 
     //Связь с таблицой Group
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinTable(schema = "spring_pov",
             name = "course_group",
             joinColumns = @JoinColumn(name = "course_id"),
@@ -38,6 +42,7 @@ public class Course {
     private List<Group> groups;
 
     //Связь с таблицой Teacher
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;

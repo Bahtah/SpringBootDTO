@@ -1,5 +1,7 @@
 package ru.surantaev.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +28,7 @@ public class Teacher {
     private String email;
 
     //Связь с таблицой Course
+    @JsonBackReference
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL)
     private Course course;
 

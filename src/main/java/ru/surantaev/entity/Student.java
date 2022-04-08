@@ -1,5 +1,7 @@
 package ru.surantaev.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aspectj.lang.annotation.RequiredTypes;
@@ -33,6 +35,7 @@ public class Student {
     private StudyFormat studyFormat;
 
     //Связь с таблицой Group
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private Group group;

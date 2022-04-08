@@ -1,5 +1,6 @@
 package ru.surantaev.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class Company {
     private String locatedCountry;
 
     //Связь с таблицой Course
+    @JsonManagedReference
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> course;
 }
