@@ -1,6 +1,8 @@
 package ru.surantaev.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.surantaev.entity.Company;
 import ru.surantaev.service.CompanyService;
@@ -27,18 +29,23 @@ public class CompanyController {
     }
 
     @PostMapping("/save")
-    public Company add(@RequestBody Company company) {
-        companyService.save(company);
-        return company;
+    public ResponseEntity<Company> saveCompany(@RequestBody Company company){
+        try{
+            return new ResponseEntity<>(companyService.saveCompany(company),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping("/update")
-    public Company update(@RequestBody Company company) {
-        companyService.save(company);
-        return company;
+
+    @PutMapping("{id}")
+    public Company update(@PathVariable  Long id, @RequestBody Company company) {
+        Company company1 = companyService.findById(id).get();
+        companyService.saveCompany(company1);
+        return company1;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public String delete(@PathVariable Long id) {
         companyService.delete(id);
         return "Компания с ID = " + id + " успешно удалён";
