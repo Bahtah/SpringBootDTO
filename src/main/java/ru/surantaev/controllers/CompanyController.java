@@ -26,4 +26,22 @@ public class CompanyController {
         return companyService.findById(id);
     }
 
+    @PostMapping("/save")
+    public Company add(@RequestBody Company company) {
+        companyService.save(company);
+        return company;
+    }
+
+    @PutMapping("/update")
+    public Company update(@RequestBody Company company) {
+        companyService.save(company);
+        return company;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        companyService.delete(id);
+        return "Компания с ID = " + id + " успешно удалён";
+    }
+
 }
