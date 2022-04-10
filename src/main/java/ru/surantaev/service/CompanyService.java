@@ -28,6 +28,10 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
+    public Company updateCompany(Company company) {
+        return companyRepository.save(company);
+    }
+
     public void delete(Long id) {
         companyRepository.deleteById(id);
     }

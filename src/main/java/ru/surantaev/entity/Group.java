@@ -2,6 +2,7 @@ package ru.surantaev.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,12 +34,13 @@ public class Group {
     private LocalDate dateOfFinish;
 
     //Связь с таблицой Course
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private List<Course> courses;
 
     //Связь с таблицой Student
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
 }

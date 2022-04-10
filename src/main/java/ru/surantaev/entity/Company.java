@@ -28,7 +28,7 @@ public class Company {
     private String locatedCountry;
 
     //Связь с таблицой Course
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> course;
 }

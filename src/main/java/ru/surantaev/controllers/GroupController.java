@@ -5,64 +5,71 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.surantaev.entity.Company;
-import ru.surantaev.service.CompanyService;
+import ru.surantaev.entity.Group;
+import ru.surantaev.entity.Student;
+import ru.surantaev.service.GroupService;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
-@RequestMapping("api/company")
+@RequestMapping("api/group")
 @RequiredArgsConstructor
-public class CompanyController {
+public class GroupController {
 
-    private final CompanyService companyService;
+    private final GroupService groupService;
 
     @GetMapping
-    public List<Company> getAll() {
-        return companyService.findAll();
+    public List<Group> getAll() {
+        return groupService.findAll();
     }
 
     @GetMapping("{id}")
-    public Optional<Company> findById(@PathVariable Long id) {
-        return companyService.findById(id);
+    public Optional<Group> findById(@PathVariable Long id) {
+        return groupService.findById(id);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Company> save(@RequestBody Company company){
+    public ResponseEntity<Group> save(@RequestBody Group group){
 
-        if (company.getId() != null && company.getId() != 0) {
+        if (group.getId() != null && group.getId() != 0) {
             return new ResponseEntity("параметр: ID ДОЛЖЕН быть нулевым", HttpStatus.NOT_ACCEPTABLE);
         }
-        if (company.getCompanyName() == null || company.getCompanyName().trim().length() == 0) {
+        if (group.getGroupName() == null || group.getGroupName().trim().length() == 0) {
             return new ResponseEntity("назначенный параметр: name", HttpStatus.NOT_ACCEPTABLE);
         }
-        return ResponseEntity.ok(companyService.saveCompany(company));
+        return ResponseEntity.ok(groupService.saveGroup(group));
     }
 
     @PutMapping("/update")
-    public ResponseEntity update(@RequestBody Company company) {
+    public ResponseEntity update(@RequestBody Group group) {
 
-        if (company.getId() == null && company.getId() == 0) {
+        if (group.getId() == null && group.getId() == 0) {
             return new ResponseEntity("параметр: ID не ДОЛЖЕН быть нулевым", HttpStatus.NOT_ACCEPTABLE);
         }
-        if (company.getCompanyName() == null || company.getCompanyName().trim().length() == 0) {
+        if (group.getGroupName() == null || group.getGroupName().trim().length() == 0) {
             return new ResponseEntity("назначенный параметр: name", HttpStatus.NOT_ACCEPTABLE);
         }
-        companyService.updateCompany(company);
+        groupService.updateGroup(group);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable ("id") Long id) {
         try {
-            companyService.delete(id);
+            groupService.delete(id);
         }catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return new ResponseEntity("id " + id + " не найден", HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/name/{name}")
+    public List<Student> getByName(@PathVariable String name) {
+        List<Student> students = groupService.getByName(name);
+        return students;
     }
 
 }

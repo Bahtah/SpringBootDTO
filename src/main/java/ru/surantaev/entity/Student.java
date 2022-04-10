@@ -1,6 +1,7 @@
 package ru.surantaev.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class Student {
     @Id
     @SequenceGenerator(name = "student_id", sequenceName = "student_sequence", allocationSize = 1, schema = "spring_pov")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_id")
-    private int id;
+    private Long id;
 
     @Column(name = "student_fName")
     private String firstName;
@@ -37,7 +38,8 @@ public class Student {
     private StudyFormat studyFormat;
 
     //Связь с таблицой Group
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private Group group;
